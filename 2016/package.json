@@ -1,0 +1,19 @@
+{
+  "name": "advent-of-code-2016",
+  "description": "advent of code 2016",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jameskyburz/aoc.git"
+  },
+  "author": {
+    "name": "James Kyburz",
+    "email": "james.kyburz@gmail.com"
+  },
+  "scripts": {
+    "test": "tape ./test/*.js | faucet"
+  },
+  "dependencies": {
+    "faucet": "0.0.1",
+    "tape": "4.6.3"
+  }
+}
