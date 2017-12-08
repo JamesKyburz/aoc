@@ -16,9 +16,9 @@ cntj (57)
 
 for (const { input, expected, solution } of [
   { input: example, expected: 'tknk', solution: root },
-//  { input: example, expected: 'tknk', solution: unbalanced },
+  { input: example, expected: 60, solution: unbalanced },
   { input: puzzleInput(), expected: 'dtacyn', solution: root },
-//  { input: puzzleInput(), expected: 'dtacyn', solution: unbalanced }
+  { input: puzzleInput(), expected: 521, solution: unbalanced }
 ]) {
   const actual = solution(parse(input))
   if (actual !== expected) {
@@ -42,10 +42,6 @@ function parse (input) {
     const node = nodes[key]
     tree[node.name] = node
     node.children = node.children.map(x => nodes[x])
-    node.towerWeight = node.children
-      .map(x => x.weight)
-      .reduce((a, b) => a + b, 0)
-
     for (const child of node.children) {
       tree[child.name] = nodes[child.name]
       tree[child.name].parent = node
@@ -62,14 +58,45 @@ function root (tree) {
 }
 
 function unbalanced (tree) {
-  for (const key of Object.keys(tree)) {
-    const node = tree[key]
-    if (!node.children) continue
-    console.log(
-      `${node.name}: ${node.weight} + ${node.children
-        .map(x => `(${x.weight}) ${x.name}`)
-        .join(' + ')} / ${node.towerWeight + node.weight}`
-    )
+  const misfits = []
+  const weight = node => {
+    if (node.children.length) {
+      node.subtowerWeight = node.subtowerWeight || node.weight
+      node.towerWeight = node.towerWeight || node.weight
+      for (const child of node.children) {
+        node.subtowerWeight += child.weight
+        node.towerWeight += weight(child)
+      }
+      return node.towerWeight
+    }
+    return node.weight
+  }
+  weight(tree[root(tree)])
+  const walk = node => {
+    if (node.children.length) {
+      if ((node.towerWeight - node.weight) % node.children.length !== 0) {
+        misfits.push({
+          name: node.name,
+          towerWeights: node.children.map(x => x.towerWeight),
+          children: node.children.map(x => x.name)
+        })
+      }
+      for (const child of node.children) walk(child)
+    }
+  }
+
+  walk(tree[root(tree)])
+
+  for (const misfit of misfits) {
+    const counts = misfit.towerWeights.reduce((sum, value) => ({...sum, ...{ [value] : (sum[value] || 0) + 1 }}), {})
+    const oddValue = +Object.keys(counts).find(k => counts[k] === 1)
+    const oddIndex = misfit.towerWeights.indexOf(oddValue)
+    const oddName = misfit.children[oddIndex]
+    if (!misfits.find(x => x.name === oddName)) {
+      const goodValue = misfit.towerWeights.find(x => x !== oddValue)
+      const diff = oddValue - goodValue
+      return tree[oddName].weight - diff
+    }
   }
 }
 
