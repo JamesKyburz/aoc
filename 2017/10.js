@@ -35,7 +35,7 @@ for (const { input, size, expected, solution } of [
     input: `102,255,99,252,200,24,219,57,103,2,226,254,1,0,69,216`,
     size: 256,
     solution: hash,
-    expected: '3efbe78a8d82f29979031a4aa0b16a9d'
+    expected: '44f4befb0f303c0bafd085f97741d51d'
   }
 ]) {
   const actual = solution(input, size)
@@ -84,3 +84,5 @@ function hash (input, size) {
   }
   return xorList.map(hex).join('')
 }
+
+exports.knot = (input) => hash(input, 256)
