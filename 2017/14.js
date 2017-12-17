@@ -45,13 +45,7 @@ function groupCount (input) {
       }
     }
   }
-  const groups = {}
-  for (const y of size) {
-    for (const x of size) {
-      if (matrix[[x, y]][0]) groups[matrix[[x, y]][1]] = 1
-    }
-  }
-  return Object.keys(groups).length
+  return currentGroup
 }
 
 function connected () {
