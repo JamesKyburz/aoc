@@ -1,0 +1,7 @@
+{
+  "name": "2018",
+  "private": true,
+  "dependencies": {
+    "node-fetch": "2.3.0"
+  }
+}
