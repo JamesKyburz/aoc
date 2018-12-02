@@ -1,9 +1,9 @@
 const { test } = require('tap')
+const { input, lines } = require('./helpers')
 
 test('day 1', async t => {
   t.plan(2)
-  const input = await require('./input')('1/input')
-  const numbers = require('./lines')(input).map(Number)
+  const numbers = lines(await input('1/input')).map(Number)
 
   const seen = {}
   let n = 0
