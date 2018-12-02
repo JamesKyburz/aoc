@@ -3,10 +3,7 @@ const { test } = require('tap')
 test('day 1', async t => {
   t.plan(2)
   const input = await require('./input')('1/input')
-  const lines = input
-    .split(/\n/)
-    .slice(0, -1)
-  const numbers = lines.map(Number)
+  const numbers = require('./lines')(input).map(Number)
 
   const seen = {}
   let n = 0
