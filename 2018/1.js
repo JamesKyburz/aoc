@@ -1,14 +1,19 @@
 const { test } = require('tap')
 const { input, lines } = require('./helpers')
 
-test('day 1', async t => {
-  t.plan(2)
+test('day 1, part 1', async t => {
+  t.plan(1)
+  const numbers = lines(await input('1/input')).map(Number)
+  t.equals(numbers.reduce((a, b) => a + b), 580)
+})
+
+test('day 1, part 2', async t => {
+  t.plan(1)
   const numbers = lines(await input('1/input')).map(Number)
 
   const seen = {}
   let n = 0
   let sameFrequency
-  let rounds = 0
 
   while (!sameFrequency) {
     for (const value of numbers) {
@@ -19,10 +24,6 @@ test('day 1', async t => {
         break
       }
       seen[n] = 1
-    }
-    rounds++
-    if (rounds === 1) {
-      t.equals(n, 580)
     }
   }
 })

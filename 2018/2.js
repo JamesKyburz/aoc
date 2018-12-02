@@ -1,8 +1,8 @@
 const { test } = require('tap')
 const { lines, input } = require('./helpers')
 
-test('day 2', async t => {
-  t.plan(2)
+test('day 2, part 1', async t => {
+  t.plan(1)
   const ids = lines(await input('2/input'))
 
   let ii = 0
@@ -20,6 +20,11 @@ test('day 2', async t => {
     if (values.includes(3)) iii++
   }
   t.equals(ii * iii, 6723)
+})
+
+test('day 2, part 2', async t => {
+  t.plan(1)
+  const ids = lines(await input('2/input'))
 
   let match
 
