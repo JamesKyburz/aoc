@@ -1,7 +1,14 @@
 {
   "name": "2018",
   "private": true,
+  "scripts": {
+    "test": "tap *.js",
+    "test-day": "tap "
+  },
   "dependencies": {
     "node-fetch": "2.3.0"
+  },
+  "devDependencies": {
+    "tap": "12.1.0"
   }
 }
