@@ -4,19 +4,24 @@
     .slice(0, -1)
     .map(Number)
 
-  const sum = input.reduce((a, b) => a + b, 0)
-  console.log('answer 1', sum)
   const seen = {}
   let n = 0
+  let sameFrequency
+  let rounds = 0
 
-  while (true) {
+  while (!sameFrequency) {
     for (const value of input) {
       n += value
       if (seen[n]) {
+        sameFrequency = true
         console.log('answer 2', n)
-        process.exit(0)
+        break
       }
       seen[n] = 1
+    }
+    rounds++
+    if (rounds === 1) {
+      console.log('answer 1', n)
     }
   }
 })()
