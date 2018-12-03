@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+if ! [[ -f "./$1.js" ]]; then
+  echo """const { test } = require('tap')
+const { input, lines } = require('./helpers')
+
+test('day $1, part 1', async t => {
+  t.plan(1)
+  const data = lines(await input('$1/input'))
+  t.ok('todo')
+})
+
+test('day $1, part 2', async t => {
+  t.plan(1)
+  const data = lines(await input('$1/input'))
+  t.ok('todo')
+})
+""" > $1.js
+else
+  echo "Day already exists"
+fi
+vi $1.js

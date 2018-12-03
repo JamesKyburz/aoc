@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "test": "tap --jobs=25 *.js",
-    "test-day": "tap "
+    "test-day": "tap ",
+    "day": "bash ./helpers/new-day"
   },
   "dependencies": {
     "node-fetch": "2.3.0"
