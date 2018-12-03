@@ -10,11 +10,13 @@ test('day 2, part 1', async t => {
 
   for (const id of ids) {
     const letters = [...id]
-    const sum = letters.reduce((sum, key) => {
-      sum[key] = sum[key] || 0
-      sum[key]++
-      return sum
-    }, {})
+    const sum = letters.reduce(
+      (sum, key) => ({
+        ...sum,
+        [key]: (sum[key] || 0) + 1
+      }),
+      {}
+    )
     const values = Object.values(sum)
     if (values.includes(2)) ii++
     if (values.includes(3)) iii++
