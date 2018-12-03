@@ -4,12 +4,11 @@ const { input, lines, sequence } = require('./helpers')
 test('day 3', async t => {
   t.plan(2)
   const counter = {}
-  const instructions = lines(await input('3/input')).map(line => {
-    const [, id, x, y, width, height] = [
-      ...line.match(/^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/)
-    ].map(Number)
-
-    return {
+  const instructions = lines(await input('3/input'))
+    .map(line =>
+      [...line.match(/^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/)].map(Number)
+    )
+    .map(([, id, x, y, width, height]) => ({
       id,
       matrix: sequence(height)
         .map(iy => sequence(width).map(ix => [ix, iy]))
@@ -22,8 +21,7 @@ test('day 3', async t => {
           }
           return sum
         }, {})
-    }
-  })
+    }))
 
   const overlap = Object.values(counter).filter(x => x > 1).length
   t.equals(119572, overlap)
