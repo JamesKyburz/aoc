@@ -1,5 +1,5 @@
 const { test } = require('tap')
-const { lines, input } = require('./helpers')
+const { lines, input, sequence } = require('./helpers')
 
 test('day 2, part 1', async t => {
   t.plan(1)
@@ -32,7 +32,7 @@ test('day 2, part 2', async t => {
 
   for (const [...i] of ids) {
     if (match) break
-    const positions = [...Array(i.length)].map((x, i) => i)
+    const positions = sequence(i.length)
     for (const [...j] of ids) {
       let diff = 0
       let lastPos = 0

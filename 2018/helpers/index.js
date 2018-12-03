@@ -1,4 +1,5 @@
 module.exports = {
   lines: require('./lines'),
-  input: require('./input')
+  input: require('./input'),
+  sequence: require('./sequence')
 }

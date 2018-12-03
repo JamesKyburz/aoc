@@ -1,5 +1,5 @@
 const { test } = require('tap')
-const { input, lines } = require('./helpers')
+const { input, lines, sequence } = require('./helpers')
 
 test('day 3', async t => {
   t.plan(2)
@@ -8,18 +8,20 @@ test('day 3', async t => {
     const [, id, x, y, width, height] = [
       ...line.match(/^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/)
     ].map(Number)
-    const matrix = {}
-    for (let iy = 0; iy < height; iy++) {
-      for (let ix = 0; ix < width; ix++) {
-        const pos = `${x + ix}x${y + iy}`
-        matrix[pos] = 0
-        counter[pos] = counter[pos] || 0
-        counter[pos]++
-      }
-    }
+
     return {
       id,
-      matrix,
+      matrix: sequence(height)
+        .map(iy => sequence(width).map(ix => [ix, iy]))
+        .reduce((sum, item) => {
+          for (const [ix, iy] of item) {
+            const pos = `${x + ix}x${y + iy}`
+            sum[pos] = 0
+            counter[pos] = counter[pos] || 0
+            counter[pos]++
+          }
+          return sum
+        }, {})
     }
   })
 
@@ -32,5 +34,4 @@ test('day 3', async t => {
       break
     }
   }
-
 })
