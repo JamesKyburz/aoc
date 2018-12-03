@@ -12,19 +12,12 @@ test('day 3', async t => {
       id,
       matrix: sequence(height)
         .map(iy => sequence(width).map(ix => `${x + ix}x${y + iy}`))
-        .reduce(
-          (sum, item) => ({
-            ...sum,
-            ...item.reduce(
-              (sum, pos) => ({
-                ...sum,
-                [pos]: (counter[pos] = (counter[pos] || 0) + 1)
-              }),
-              {}
-            )
-          }),
-          {}
-        )
+        .reduce((sum, item) => {
+          for (const pos of item) {
+            sum[pos] = counter[pos] = (counter[pos] || 0) + 1
+          }
+          return sum
+        })
     }))
 
   const overlap = Object.values(counter).filter(x => x > 1).length
