@@ -4,20 +4,17 @@ const { input, lines, sequence } = require('./helpers')
 test('day 3', async t => {
   t.plan(2)
   const counter = {}
+  const parse = line =>
+    [...line.match(/^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/)].map(Number)
   const instructions = lines(await input('3/input'))
-    .map(line =>
-      [...line.match(/^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/)].map(Number)
-    )
+    .map(parse)
     .map(([, id, x, y, width, height]) => ({
       id,
       matrix: sequence(height)
-        .map(iy => sequence(width).map(ix => [ix, iy]))
+        .map(iy => sequence(width).map(ix => `${x + ix}x${y + iy}`))
         .reduce((sum, item) => {
-          for (const [ix, iy] of item) {
-            const pos = `${x + ix}x${y + iy}`
-            sum[pos] = 0
-            counter[pos] = counter[pos] || 0
-            counter[pos]++
+          for (const pos of item) {
+            sum[pos] = counter[pos] = (counter[pos] || 0) + 1
           }
           return sum
         }, {})
