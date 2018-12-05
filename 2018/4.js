@@ -1,5 +1,5 @@
 const { test } = require('tap')
-const { input, lines, sequence } = require('./helpers')
+const { input, lines } = require('./helpers')
 
 test('day 4, part 1', async t => {
   let guard
@@ -26,7 +26,8 @@ test('day 4, part 1', async t => {
       let start = +sum[i - 1].slept
       let end = +record.woke
       while (start < end) {
-        sum[i - 1].minutes.push(new Date(start).getMinutes())
+        const min = new Date(start).getMinutes()
+        sum[i - 1].minutes.push(min)
         start += 60000
       }
     }
@@ -59,4 +60,35 @@ test('day 4, part 1', async t => {
   )[0]
 
   t.equals(sleepiestGuard * sleepiestMinute, 39422)
+
+  const guardMinuteCounter = {}
+
+  for (const item of sleeps.filter(x => x.minutes)) {
+    guardMinuteCounter[item.guard] = guardMinuteCounter[item.guard] || {}
+    for (const min of item.minutes) {
+      guardMinuteCounter[item.guard][min] =
+        guardMinuteCounter[item.guard][min] || 0
+      guardMinuteCounter[item.guard][min]++
+    }
+  }
+
+  let sleepiestGuard2 = 0
+  let sleepiestCount2 = 0
+  let sleepiestMinute2 = 0
+
+  for (const guard of Object.keys(guardMinuteCounter)) {
+    const min = min => guardMinuteCounter[guard][min]
+    const max = Object.keys(guardMinuteCounter[guard]).sort(
+      (a, b) => min(b) - min(a)
+    )[0]
+    guardMinuteCounter[guard].max = max
+    guardMinuteCounter[guard].count = guardMinuteCounter[guard][max]
+    if (guardMinuteCounter[guard].count > sleepiestCount2) {
+      sleepiestCount2 = guardMinuteCounter[guard].count
+      sleepiestGuard2 = guard
+      sleepiestMinute2 = max
+    }
+  }
+
+  t.equals(sleepiestGuard2 * sleepiestMinute2, 65474)
 })
