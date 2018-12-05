@@ -1,5 +1,5 @@
 const { test } = require('tap')
-const { input, lines } = require('./helpers')
+const { input } = require('./helpers')
 
 test('day 5', async t => {
   t.plan(2)
@@ -24,21 +24,18 @@ test('day 5', async t => {
 
   t.equals(reduced.length, 10762)
 
-  const smallLetters = [...Array(26)].map((_, x) => String.fromCharCode(97 + x))
-  const largeLetters = [...Array(26)].map((_, x) => String.fromCharCode(65 + x))
-  const counter = smallLetters.reduce(
+  const counter = [...Array(26)].map((_, x) => 97 + x).reduce(
     (sum, letter) => ({
       ...sum,
       [letter]: {
         count: 0,
-        check: x =>
-          x !== letter.charCodeAt(0) && x + 32 !== letter.charCodeAt(0)
+        check: x => x !== letter && x + 32 !== letter
       }
     }),
     {}
   )
 
-  for (const letter of smallLetters) {
+  for (const letter of Object.keys(counter)) {
     let reduced
     while (true) {
       const shrink = data.reduce((sum, item) => {
@@ -60,7 +57,9 @@ test('day 5', async t => {
     }
   }
 
-  const best = Object.keys(counter).sort((a, b) => counter[a].count - counter[b].count)[0]
+  const best = Object.keys(counter).sort(
+    (a, b) => counter[a].count - counter[b].count
+  )[0]
 
   t.equals(counter[best].count, 6946)
 })
