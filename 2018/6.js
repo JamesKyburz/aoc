@@ -2,11 +2,10 @@ const { test } = require('tap')
 const { input, lines, sequence } = require('./helpers')
 
 test('day 6', async t => {
-  t.plan(1)
+  t.plan(2)
   const manhattan = ([x, y], [x1, y1]) => Math.abs(x - x1) + Math.abs(y - y1)
 
   const isFinite = region => {
-    const regionCoord = []
     for (const y of [0, maxY - 1]) {
       for (const x of [0, maxX - 1]) {
         const cell = matrix[y][x]
@@ -16,8 +15,9 @@ test('day 6', async t => {
     return true
   }
 
-  const coord = lines(await input('6/input'))
-  .map(x => x.split(/, /).map(Number))
+  const coord = lines(await input('6/input')).map(x =>
+    x.split(/, /).map(Number)
+  )
 
   const [maxX, maxY] = coord.reduce(([maxX, maxY], [x, y]) => [
     Math.max(x + 1, maxX),
@@ -56,21 +56,36 @@ test('day 6', async t => {
     }
   }
 
-  const maxFiniteArea = regions.filter(({ region }) => isFinite(region)).reduce((sum, { region }) => {
-    let count = 0
-    for (const y of sequence(maxY)) {
-      for (const x of sequence(maxX)) {
-        const cell = matrix[y][x]
-        if (cell.region > -1) {
-          if (cell.region === region) count++
-        } else if (cell.partOf > -1) {
-          if (cell.partOf === region) count++
+  const maxFiniteArea = regions
+    .filter(({ region }) => isFinite(region))
+    .reduce((sum, { region }) => {
+      let count = 0
+      for (const y of sequence(maxY)) {
+        for (const x of sequence(maxX)) {
+          const cell = matrix[y][x]
+          if (cell.region > -1) {
+            if (cell.region === region) count++
+          } else if (cell.partOf > -1) {
+            if (cell.partOf === region) count++
+          }
         }
       }
-    }
-    return Math.max(count, sum)
-  }, 0)
+      return Math.max(count, sum)
+    }, 0)
 
   t.equals(5187, maxFiniteArea)
 
+  let closestArea = 0
+
+  for (const y of sequence(maxY)) {
+    for (const x of sequence(maxX)) {
+      let distanceTotal = 0
+      for (const [x1, y1] of regions.map(({ xy }) => xy)) {
+        distanceTotal += manhattan([x, y], [x1, y1])
+      }
+      if (distanceTotal < 10000) closestArea++
+    }
+  }
+
+  t.equals(34829, closestArea)
 })
