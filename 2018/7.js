@@ -24,15 +24,13 @@ test('day 7', async t => {
     if (!canRun(step)) return
     completed.add(step)
     stack.push(...steps.filter(x => x[0] === step).map(x => x[1]))
-    stack = [...new Set(stack.filter(x => !completed.has(x)))].sort()
-    for (const step of stack) {
-      walk(step)
-    }
+    stack = [...new Set(stack.filter(x => !completed.has(x))), free() && free()[0]]
+      .filter(Boolean)
+      .sort()
+
+    for (const step of stack) walk(step)
   }
 
-  while (free()) {
-    walk(free()[0])
-  }
-
-  t.equals([...completed].join(''), 'EBYICGKQOVMZJAWRDPXFSUTNLH')
+  while (free()) walk(free()[0])
+  t.equals([...completed].join(''), 'EBICGKQOVMYZJAWRDPXFSUTNLH')
 })
