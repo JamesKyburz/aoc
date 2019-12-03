@@ -23,5 +23,6 @@ module.exports = parent => {
 }
 
 function txtName (parent) {
+  if (process.env.TEST) return parent.replace(/\..*$/, '.test')
   return parent.replace(/\..*$/, '.txt')
 }
