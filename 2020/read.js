@@ -3,6 +3,11 @@ const fs = require('fs')
 module.exports = parent => {
   let input = fs.readFileSync(txtName(parent), 'utf-8')
   const helpers = {
+    * [Symbol.iterator] () {
+      for (const value of input) {
+        yield value
+      }
+    },
     value () {
       return input
     },

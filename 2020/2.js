@@ -1,7 +1,6 @@
 const input = require('./read')(__filename)
   .splitNewline()
   .mapNumber()
-  .value()
 
 const expenses = [...input]
 
