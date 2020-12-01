@@ -4,47 +4,55 @@ const wires = require('./read')(__filename)
   .splitNewline()
   .value()
 
+const [a, b] = wires
+
 const getMoves = wire => wire.split(/,/).map(x => [x[0], Number(x.slice(1))])
 
-const seen = []
-
-let i = 0
-
-for (const wire of wires) {
-  i++
+function getSteps (wire, i) {
   const moves = getMoves(wire)
   let [x, y] = [0, 0]
+  const wireSteps = {}
+  let count = 0
   for (const [direction, steps] of moves) {
     let n = steps
     if (direction === 'R') {
-      while (n--) saveStep(i, ++x, y, 'LR')
+      while (n--) saveStep(++x, y, direction)
     } else if (direction === 'L') {
-      while (n--) saveStep(i, --x, y, 'LR')
+      while (n--) saveStep(--x, y, direction)
     } else if (direction === 'U') {
-      while (n--) saveStep(i, x, ++y, 'UD')
+      while (n--) saveStep(x, ++y, direction)
     } else if (direction === 'D') {
-      while (n--) saveStep(i, x, --y, 'UD')
+      while (n--) saveStep(x, --y, direction)
     }
   }
-}
-
-function saveStep (number, x, y, type) {
-  seen[[x, y]] = seen[[x, y]] || []
-  seen[[x, y]].push({ number, type })
-}
-
-const crossed = Object.keys(seen)
-  .filter(key => {
-    for (const item of seen[key]) {
-      for (const other of seen[key]) {
-        if (item.number !== other.number && item.type !== other.type) {
-          return true
-        }
+  function saveStep (x, y, direction) {
+    count++
+    if (!wireSteps[[x, y]]) {
+      wireSteps[[x, y]] = {
+        count,
+        value: direction.match(/U|D/) ? '|' : '-'
       }
     }
-  })
-  .map(x => x.split(/,/).map(Number))
+  }
+  return wireSteps
+}
+
+const stepsA = getSteps(a, 1)
+const stepsB = getSteps(b, 2)
+
+const both = Object.keys(stepsA).filter(key => {
+  const { count: countA, value: valueA, direction: directionA } = stepsA[key]
+  const { count: countB, value: valueB, direction: directionB } =
+    stepsB[key] || {}
+  if (valueB && valueA !== valueB) return true
+})
 
 console.log(
-  crossed.map(point => manhattan([0, 0], point)).sort((a, b) => a - b)[0]
+  Math.min(...both.map(key => manhattan([0, 0], key.split(',').map(Number))))
+)
+
+console.log(
+  both
+    .map(key => Math.min(stepsA[key].count, stepsB[key].count))
+    .reduce((a, b) => a + b)
 )
