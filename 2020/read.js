@@ -4,6 +4,9 @@ module.exports = parent => {
   let input = fs.readFileSync(txtName(parent), 'utf-8')
   const helpers = {
     * [Symbol.iterator] () {
+      if (!Array.isArray(input)) {
+        helpers.splitNewline()
+      }
       for (const value of input) {
         yield value
       }
@@ -20,6 +23,9 @@ module.exports = parent => {
       return helpers
     },
     mapNumber () {
+      if (!Array.isArray(input)) {
+        helpers.splitNewline()
+      }
       input = input.map(Number)
       return helpers
     }

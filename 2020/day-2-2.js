@@ -1,4 +1,4 @@
-const input = require('./read')(__filename).splitNewline()
+const input = require('./read')(__filename)
 
 let valid = 0
 

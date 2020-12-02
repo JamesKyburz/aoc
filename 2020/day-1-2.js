@@ -1,8 +1,4 @@
-const input = require('./read')(__filename)
-  .splitNewline()
-  .mapNumber()
-
-const expenses = [...input]
+const expenses = [...require('./read')(__filename).mapNumber()]
 
 let result = 0
 const seen = {}
