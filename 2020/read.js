@@ -28,6 +28,14 @@ module.exports = parent => {
 }
 
 function txtName (parent) {
-  if (process.env.TEST) return parent.replace(/\..*$/, '.test')
-  return parent.replace(/\..*$/, '.txt')
+  const name = process.env.TEST
+    ? parent.replace(/\..*$/, '.test')
+    : parent.replace(/\..*$/, '.txt')
+  try {
+    if (fs.statSync(name)) {
+      return name
+    }
+  } catch (_) {
+    return name.replace(/-2/, '')
+  }
 }
