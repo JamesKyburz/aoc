@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 
 module.exports = parent => {
   let input = fs.readFileSync(txtName(parent), 'utf-8')
@@ -34,9 +35,13 @@ module.exports = parent => {
 }
 
 function txtName (parent) {
-  const name = process.env.TEST
-    ? parent.replace(/\..*$/, '.test')
-    : parent.replace(/\..*$/, '.txt')
+  const name = path.join(
+    __dirname,
+    '/input',
+    process.env.TEST
+      ? path.basename(parent).replace(/\..*$/, '.test')
+      : path.basename(parent).replace(/\..*$/, '.txt')
+  )
   try {
     if (fs.statSync(name)) {
       return name
