@@ -1,29 +1,12 @@
-const input = require('./read')(__filename)
+const input = [...require('./read')(__filename)]
 
-let trees = 0
-let x = 0
-let y = 0
-
-for (const [...line] of input) {
-  if (!line.length) continue
-  if (y++ === 0) {
-    x += 3
-  } else {
-    const pattern = [...line]
-    while (x + 3 > line.length) {
-      line.push(...pattern)
-    }
-    if (line[x] === '#') {
-      trees++
-      line[x] = 'X'
-    } else {
-      line[x] = 'O'
-    }
-    x += 3
+const calculate = (right, down) => {
+  let trees = 0
+  for (let x = right, y=down; y < input.length; y+= down, x+= right) {
+    const line = input[y]
+    if (line[x % line.length] === '#') trees++
   }
-  if (process.env.DEBUG) {
-    console.log(line.join(''))
-  }
+  return trees
 }
 
-console.log(trees)
+console.log(calculate(3, 1))
