@@ -25,17 +25,19 @@ function * records (input) {
 }
 
 function isValid (record) {
+  const between = (min, max) => value =>
+    Number(value) >= min && Number(value) <= max
   const checks = {
-    byr: value => Number(value) >= 1920 && Number(value) <= 2002,
-    iyr: value => Number(value) >= 2010 && Number(value) <= 2020,
-    eyr: value => Number(value) >= 2020 && Number(value) <= 2030,
+    byr: between(1920, 2002),
+    iyr: between(2010, 2020),
+    eyr: between(2020, 2030),
     hgt: value => {
       const type = value.split(/\d+/)[1]
       const height = parseInt(value, 10)
       if (type === 'cm') {
-        return height >= 150 && height <= 193
+        return between(150, 193)(height)
       } else if (type === 'in') {
-        return height >= 59 && height <= 76
+        return between(59, 76)(height)
       }
     },
     hcl: value => /^#[0-9a-f]{6}$/.test(value),
