@@ -9,8 +9,8 @@ function * records (input) {
       record = {
         ...record,
         ...line
-          .split(/\s+/)
-          .map(pair => pair.split(/\s*:\s*/))
+          .split(' ')
+          .map(pair => pair.split(':'))
           .reduce(
             (sum, [key, value]) => ({ ...sum, [key.trim()]: value.trim() }),
             {}
@@ -41,7 +41,8 @@ function isValid (record) {
       }
     },
     hcl: value => /^#[0-9a-f]{6}$/.test(value),
-    ecl: value => /^(amb|blu|brn|gry|grn|hzl|oth)$/.test(value),
+    ecl: value =>
+      ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'].includes(value),
     pid: value => /^\d{9}$/.test(value),
     cid: () => true
   }
