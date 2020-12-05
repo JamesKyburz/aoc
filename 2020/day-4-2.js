@@ -32,13 +32,14 @@ function isValid (record) {
     iyr: between(2010, 2020),
     eyr: between(2020, 2030),
     hgt: value => {
-      const type = value.split(/\d+/)[1]
-      const height = parseInt(value, 10)
-      if (type === 'cm') {
-        return between(150, 193)(height)
-      } else if (type === 'in') {
-        return between(59, 76)(height)
-      }
+      const [, height, type] = value.match(/^(\d+)(in|cm)$/) || []
+      if (!type) return
+      return between(
+        ...{
+          cm: [150, 193],
+          in: [59, 76]
+        }[type]
+      )(height)
     },
     hcl: value => /^#[0-9a-f]{6}$/.test(value),
     ecl: value =>
