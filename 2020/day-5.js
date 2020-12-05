@@ -2,9 +2,10 @@ const input = require('./read')(__filename)
 
 console.log(Math.max(...[...input].map(id)))
 
-function id (input) {
-  const row = find(0, 127, [...input].slice(0, 7))
-  const col = find(0, 7, [...input].slice(7))
+function id ([...input]) {
+  const [row, col] = [127, 7].map((max, i) =>
+    find(0, max, i ? input : input.splice(0, 7))
+  )
   return row * 8 + col
 }
 
