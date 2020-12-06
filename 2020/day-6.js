@@ -6,23 +6,13 @@ console.log(
 
 function * records (input) {
   let record = []
-  const all = () => {
-    const count = {}
-    for (const answer of record.flat()) {
-      count[answer] = count[answer] || 0
-      count[answer]++
-    }
-    return new Set(
-      Object.keys(count).filter(key => count[key] === record.length)
-    )
-  }
   for (const [...answers] of input) {
     if (answers.length) {
       record = [...record, answers]
     } else if (record) {
-      yield all()
+      yield new Set(record.flat())
       record = []
     }
   }
-  if (record) yield all()
+  if (record) yield new Set(record.flat())
 }
