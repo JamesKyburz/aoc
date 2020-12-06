@@ -7,14 +7,7 @@ console.log(
 function * records (input) {
   let record = []
   const all = () => {
-    const count = {}
-    for (const answer of record.flat()) {
-      count[answer] = count[answer] || 0
-      count[answer]++
-    }
-    return new Set(
-      Object.keys(count).filter(key => count[key] === record.length)
-    )
+    return new Set(record.flat().filter(x => record.every(y => y.includes(x))))
   }
   for (const [...answers] of input) {
     if (answers.length) {
