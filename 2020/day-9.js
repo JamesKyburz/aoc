@@ -34,5 +34,6 @@ for (const i of [...Array(numbers.length).keys()]) {
     if (result === invalid) {
       console.log(Math.min(...list) + Math.max(...list))
     }
+    if (result > invalid) break
   }
 }
