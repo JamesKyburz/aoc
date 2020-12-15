@@ -1,3 +1,5 @@
+'use strict'
+
 const rows = [...require('./read')(__filename)].map(x => [...x])
 const readline = require('readline')
 
@@ -5,6 +7,8 @@ const { stdout } = process
 
 const cursorTo = (x, y) => readline.cursorTo(stdout, x, y)
 const clearScreenDown = () => readline.clearScreenDown(stdout)
+
+const ESC = String.fromCharCode(27)
 
 cursorTo(0, 0)
 clearScreenDown()
@@ -25,7 +29,8 @@ async function run () {
           changes.push([x, y, 'L'])
         }
         const value = rows[y][x]
-        const escape = '\033' + {
+        const escape = ESC +
+        {
           '.': '[1m',
           '#': '[1;92m',
           'L': '[1;94m'
@@ -34,7 +39,7 @@ async function run () {
       }
     }
 
-    stdout.write('\033[0m\n')
+    stdout.write(`${ESC}[0m\n`)
 
     if (changes.length) {
       for (const [x, y, value] of changes) {
