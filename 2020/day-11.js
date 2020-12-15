@@ -24,11 +24,17 @@ async function run () {
         } else if (rows[y][x] === '#' && occupied(x, y) > 3) {
           changes.push([x, y, 'L'])
         }
-        stdout.write(rows[y][x])
+        const value = rows[y][x]
+        const escape = '\033' + {
+          '.': '[1m',
+          '#': '[1;92m',
+          'L': '[1;94m'
+        }[value]
+        stdout.write(`${escape}${value}`)
       }
     }
 
-    console.log()
+    stdout.write('\033[0m\n')
 
     if (changes.length) {
       for (const [x, y, value] of changes) {
