@@ -37,7 +37,7 @@ async function run () {
     } else {
       break
     }
-    await new Promise(resolve => setTimeout(resolve, 200))
+    await new Promise(resolve => setTimeout(resolve, 150))
   }
 
   console.log(
