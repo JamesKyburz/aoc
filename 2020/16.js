@@ -1,10 +1,7 @@
 'use strict'
 
 const input = require('./read')(__filename)
-
 const ranges = getRanges(input)
-const nearbyTickets = getNearbyTickets(input)
-
 const invalid = []
 
 for (const ticket of getNearbyTickets(input)) {
