@@ -9,30 +9,19 @@ const numbers = input
 
 {
   // part1
-
-  let l = 0
-  let i = 0
-
-  for (const x of numbers) {
-    if (x > l && l) i++
-    l = x
-  }
-
-  console.log(`1228? ${i}`)
+  console.log(
+    `1228? ${numbers.reduce(
+      (sum, _, i, a) => (a[i + 1] > a[i] ? sum + 1 : sum),
+      0
+    )}`
+  )
 }
 
 {
   // part 2
-
-  let l = 0
-  let i = 0
-
-  for (const x of numbers.map((n, i) =>
-    numbers.slice(i, i + 3).reduce((a, b) => a + b)
-  )) {
-    if (x > l && l) i++
-    l = x
-  }
-
-  console.log(`1257? ${i}`)
+  console.log(
+    `1257? ${numbers
+      .map((n, i) => numbers.slice(i, i + 3).reduce((a, b) => a + b))
+      .reduce((sum, _, i, a) => (a[i + 1] > a[i] ? sum + 1 : sum), 0)}`
+  )
 }
