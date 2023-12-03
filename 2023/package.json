@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.10.2",
+    "prettier-config-standard": "^7.0.0"
+  },
+  "dependencies": {
+    "prettier": "^3.1.0"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
