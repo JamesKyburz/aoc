@@ -7,16 +7,22 @@ import path from 'node:path'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-test('part 1', async (t) => {
-  await t.test('sample', async () => {
-    assert.equal(await part1(path.join(__dirname, 'sample-1.txt')), 142)
+test('day 1', async t => {
+  await t.test('part 1', async t => {
+    await t.test('sample', async () => {
+      assert.equal(await part1(path.join(__dirname, 'sample-1.txt')), 142)
+    })
+    await t.test('input', async () => {
+      assert.equal(await part1(path.join(__dirname, 'input.txt')), 56042)
+    })
   })
-  assert.equal(await part1(path.join(__dirname, 'input.txt')), 56042)
+  await t.test('part 2', async t => {
+    await t.test('sample', async () => {
+      assert.equal(await part2(path.join(__dirname, 'sample-2.txt')), 281)
+    })
+   await t.test('input', async () => {
+     assert.equal(await part2(path.join(__dirname, 'input.txt')), 55358)
+   })
+  })
 })
 
- test('part 2', async (t) => {
-  await t.test('sample', async () => {
-    assert.equal(await part2(path.join(__dirname, 'sample-2.txt')), 281)
-  })
-   assert.equal(await part2(path.join(__dirname, 'input.txt')), 55358)
- })
