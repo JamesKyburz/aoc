@@ -7,7 +7,7 @@ import path from 'node:path'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-test('day 2', async (t) => {
+test(`day ${path.basename(__dirname)}`, async (t) => {
   await t.test('part 1', async t=> {
     await t.test('sample', async () => {
       assert.equal(await part1(path.join(__dirname, 'sample-1.txt')), 8)
