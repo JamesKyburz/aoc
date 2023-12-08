@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import part1 from './1.js'
-// import part2 from './2.js'
+import part2 from './2.js'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
@@ -16,12 +16,12 @@ test(`day ${path.basename(__dirname)}`, async (t) => {
        assert.equal(await part1(path.join(__dirname, 'input.txt')), 248105065)
      })
   })
-  // await t.test('part 2', async t => {
-  //   await t.test('sample', async () => {
-  //     assert.equal(await part2(path.join(__dirname, 'sample-1.txt')), 71503)
-  //   })
-  //   await t.test('input', async () => {
-  //     assert.equal(await part2(path.join(__dirname, 'input.txt')), 35865985)
-  //   })
-  // })
+  await t.test('part 2', async t => {
+    await t.test('sample', async () => {
+      assert.equal(await part2(path.join(__dirname, 'sample-1.txt')), 5905)
+    })
+     await t.test('input', async () => {
+       assert.equal(await part2(path.join(__dirname, 'input.txt')), 249515436)
+     })
+  })
 })
